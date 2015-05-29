@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="cookbook_base"/>
+  <table-filter match-name="step_recipe"/>
+  <table-filter match-name="user_has_recipe"/>
+  <table-filter match-name="recipe"/>
+  <table-filter match-name="user"/>
+  <table-filter match-name="recipe_has_category"/>
+  <table-filter match-name="recipeingredient"/>
+  <table-filter match-name="ingredient"/>
+  <table-filter match-name="category"/>
+</hibernate-reverse-engineering>

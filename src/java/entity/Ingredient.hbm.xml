@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25.05.2015 15:34:15 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entity.Ingredient" table="ingredient" catalog="cookbook_base" optimistic-lock="version">
+        <id name="ingredientId" type="java.lang.Integer">
+            <column name="ingredient_id" />
+            <generator class="identity" />
+        </id>
+        <property name="ingredientName" type="string">
+            <column name="ingredient_name" length="45" not-null="true" unique="true" />
+        </property>
+        <set name="recipeingredients" table="recipeingredient" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ingredient_id" not-null="true" />
+            </key>
+            <one-to-many class="entity.Recipeingredient" />
+        </set>
+    </class>
+</hibernate-mapping>

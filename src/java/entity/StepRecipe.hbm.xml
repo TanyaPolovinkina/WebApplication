@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25.05.2015 15:34:15 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entity.StepRecipe" table="step_recipe" catalog="cookbook_base" optimistic-lock="version">
+        <id name="stepId" type="java.lang.Integer">
+            <column name="step_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="recipe" class="entity.Recipe" fetch="select">
+            <column name="recipe_id" not-null="true" />
+        </many-to-one>
+        <property name="stepNumber" type="int">
+            <column name="step_number" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="16777215" not-null="true" />
+        </property>
+        <property name="photo" type="string">
+            <column name="photo" length="150" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

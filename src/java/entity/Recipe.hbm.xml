@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25.05.2015 15:34:15 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="entity.Recipe" table="recipe" catalog="cookbook_base" optimistic-lock="version">
+        <id name="recipeId" type="java.lang.Integer">
+            <column name="recipe_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="user" class="entity.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="recipeName" type="string">
+            <column name="recipe_name" length="45" not-null="true" />
+        </property>
+        <property name="cookingTime" type="int">
+            <column name="cooking_time" not-null="true" />
+        </property>
+        <property name="recipePhoto" type="string">
+            <column name="recipe_photo" length="45" not-null="true" />
+        </property>
+        <set name="recipeingredients" table="recipeingredient" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="recipe_id" not-null="true" />
+            </key>
+            <one-to-many class="entity.Recipeingredient" />
+        </set>
+        <set name="categories" table="recipe_has_category" inverse="false" lazy="false" fetch="select">
+            <key>
+                <column name="recipe_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="entity.Category">
+                <column name="category_id" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="stepRecipes" table="step_recipe" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="recipe_id" not-null="true" />
+            </key>
+            <one-to-many class="entity.StepRecipe" />
+        </set>
+        <set name="users" table="user_has_recipe" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="recipe_id" not-null="true" />
+            </key>
+            <many-to-many entity-name="entity.User">
+                <column name="user_id" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

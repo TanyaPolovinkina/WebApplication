@@ -1,0 +1,257 @@
+* {
+
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    overflow: visible;
+}
+html, body {
+    height: 100%;
+    background: black;
+}
+#recipe_menu{
+    background:black;
+    float:right;
+    width:80%;
+    height:100%;
+    z-index: 2;
+    overflow: hidden;
+}
+#table_enter{
+    margin:0 auto;
+    text-align: center;
+}
+#submit  {
+    text-align: left;
+    background:white;
+    opacity: 0; 
+    position: absolute;
+    width:400px;
+    height:300px;
+    margin:0 12%;
+    margin-top: 5%;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    z-index: 1;
+
+}
+#submit_registration{
+    background:white;
+    opacity: 0; 
+    position: absolute;
+    width:500px;
+    height:350px;
+    margin:0 12%;
+    margin-top: 5%;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    z-index: 1;
+
+}
+a { 
+    text-decoration: none;
+    color:  white;
+}
+.main{
+
+    padding: 0;
+    width:70%; 
+    margin:0 auto;
+
+    overflow: visible;
+}
+.menu{
+    float:left;
+    background: url(background.jpg);
+    padding: 0;
+    width:20%; 
+    margin:0 0;
+    color: white;
+    height:100%;
+    font-family: Segoe Print;
+    overflow: hidden;
+}
+#h{
+    width:80%;
+
+
+
+}
+#enter{
+
+    width:20%;
+
+
+}
+.main_menu{
+    height:40px;
+    font-family: Segoe Print;
+    border: 1px solid #fff;
+    width:222px;
+    text-align: center;
+}
+.submit_enter, .submit_registration, .submit_enter_but, .submit_registration_but{
+    width:150px;
+    border: 2px solid white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    background:black;
+    font-family: Segoe Print;
+    text-align: center;
+    color:  whitesmoke;
+}
+.block{
+    float:left;
+
+}
+header {
+
+    background: url(background.jpg);
+    width:70%; 
+    margin:0 auto;
+    height: 80px;
+    text-align:center;
+
+}
+h2,p{
+    font-family: Segoe Print;
+    text-align: center;
+    color:  whitesmoke;
+}
+#black_background{
+    height: 100vh;
+    width: 100vh;
+    background: black;
+    opacity: 0;
+    z-index: 1;
+}
+.find{
+    width: 90%;
+    height:45%;
+    border: 2px solid white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    font-family: Segoe Print;
+    color:  #27408b;
+    background: white;
+    vertical-align: middle;
+}
+#recipe{
+    float:left;
+    width: 95%;
+    height:80%;
+}
+#button{
+    float:right;
+    width: 5%;
+    height:90%;
+    background: navy;
+    color:white;
+}
+.recipe_img{
+  
+    display:block;
+    margin:0 auto;
+    margin-top: 5%;
+    width: 300px;
+}
+h3 span {
+    float: right;
+    cursor: pointer;
+}
+h3 span:hover {
+    text-shadow: 0px 0px 3px #a1eeff;
+    overflow: hidden;
+}
+ul {
+    padding: 5px;
+    overflow: hidden;
+    margin:0;
+}
+ul li {
+    font-size: 13px;
+    list-style-type: none;
+    padding: 5px;
+    font-family: Segoe Print;
+    overflow: hidden;
+}
+#recipe_info{
+
+}
+#error_enter{
+    color:red;
+}
+#enter_table{
+    width: 30%;
+    height: 50%;
+    margin-left: 550px;
+}
+#enter_table td{
+    width:50%;
+    color:white;
+    font-family: Segoe Print;
+    position: relative;
+    text-align: center;
+}
+#enter_but{
+    display: block;
+    margin: 0 auto;
+    padding: 4px 8px 4px 8px;    
+    text-align: center;
+    width: 100%;
+}
+#enter_table td input{
+    height:30px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    font-family: Segoe Print;
+}
+#form_add_recipe td, #tbl td, #tblstep td{
+    width: 25%;
+    height: 40px;
+
+
+}
+#form_add_recipe, #tbl, #tblstep{
+    width: 80%;
+    margin-left: 200px;
+}
+#form_add_recipe input, #tbl input{
+    margin:auto;
+    text-align: center;
+
+}
+#tblstep textarea{
+    width:450px; 
+    height: 150px;
+    border: 2px solid white;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    background: black;
+    color:white;
+    font-family: Segoe Print;
+    size: 10px;
+
+}
+#form_recipe{
+
+    margin: auto;
+}
+#form_recipe td{
+    width: 25%;
+
+}
