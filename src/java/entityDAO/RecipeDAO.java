@@ -17,9 +17,10 @@ public class RecipeDAO extends EntityDAO<Recipe> {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            Query query = session.createQuery("from Recipe c where c.recipeName = :name and c.cookingTime = :time ")
+            Query query = session.createQuery("from Recipe c where c.recipeName = :name and c.cookingTime = :time and c.user.userId = :id")
                     .setString("name", obj.getRecipeName())
-                    .setInteger("time", obj.getCookingTime());
+                    .setInteger("time", obj.getCookingTime())
+                    .setInteger("id", obj.getUser().getUserId());
 
             recipe = (Recipe) query.uniqueResult();
             session.getTransaction().commit();
@@ -43,6 +44,7 @@ public class RecipeDAO extends EntityDAO<Recipe> {
             Query query = session.createQuery("from Recipe c where c.recipeId = :id")
                     .setInteger("id", id);
             recipe = (Recipe) query.uniqueResult();
+            
             session.getTransaction().commit();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка 'add'", JOptionPane.OK_OPTION);
@@ -68,7 +70,7 @@ public class RecipeDAO extends EntityDAO<Recipe> {
             }
             session.getTransaction().commit();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка 'add'", JOptionPane.OK_OPTION);
+            result = false;
         } finally {
             if (session != null && session.isOpen()) {
 

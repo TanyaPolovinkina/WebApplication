@@ -36,8 +36,7 @@ public class StepDAO extends EntityDAO<StepRecipe> {
             session.beginTransaction();
             Query query = session.createQuery("from StepRecipe c where c.stepNumber = :number and c.description = :dscrb ")
                     .setString("dscrb", obj.getDescription())
-                    .setInteger("number", obj.getStepNumber())
-                    ;
+                    .setInteger("number", obj.getStepNumber());
 
             step = (StepRecipe) query.uniqueResult();
             session.getTransaction().commit();
@@ -104,4 +103,25 @@ public class StepDAO extends EntityDAO<StepRecipe> {
         }
     }
 
+    public StepRecipe findEntityById(int id) {
+        Session session = null;
+        StepRecipe recipe = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query = session.createQuery("from StepRecipe c where c.stepId = :id")
+                    .setInteger("id", id);
+            recipe = (StepRecipe) query.uniqueResult();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка 'add'", JOptionPane.OK_OPTION);
+        } finally {
+            if (session != null && session.isOpen()) {
+
+                session.close();
+            }
+        }
+        return recipe;
+    }
 }

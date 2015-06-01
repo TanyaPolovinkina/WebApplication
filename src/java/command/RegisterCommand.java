@@ -32,7 +32,6 @@ public class RegisterCommand implements ActionCommand {
         boolean result = user_add.addUser(user);
         if(result)
         {
-        request.setAttribute("user", user);
         request.setAttribute("message", "Вы удачно зарегестрированы!!!");
         page = "/WEB-INF/views/main.jsp";
         }

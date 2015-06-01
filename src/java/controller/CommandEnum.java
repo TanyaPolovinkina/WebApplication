@@ -1,5 +1,11 @@
 package controller;
 
+import command.DeleteRecipeCommand;
+import command.AddRecipeCookbookCommand;
+import command.DeleteRecipeCookbookCommand;
+import command.EditRecipeSaveCommand;
+import command.EditRecipeCommand;
+import command.ShowRecipesCommand;
 import command.LogoutCommand;
 import command.AddRecipeCommand;
 import command.FindRecipeCommand;
@@ -32,14 +38,24 @@ public enum CommandEnum {
              this.command = new AddRecipeCommand();
         }
     },
+    EDITRECIPE{
+        {
+             this.command = new EditRecipeSaveCommand();
+        }
+    },
     SHOWRECIPES{
         {
-            this.command = new ShowRecipeCommand();
+            this.command = new ShowRecipesCommand();
         }
     },
     SHOWMYRECIPES{
         {
             this.command = new ShowMyRecipeCommand();
+        }
+    },
+    SHOWRECIPE{
+        {
+            this.command = new ShowRecipeCommand();
         }
     },
     SHOWCOOKBOOK{
@@ -50,6 +66,26 @@ public enum CommandEnum {
     FINDRECIPE{
         {
             this.command = new FindRecipeCommand();
+        }
+    },
+    EDIT{
+        {
+            this.command = new EditRecipeCommand();
+        }
+    },
+    ADDCOOKBOOK{
+        {
+            this.command = new AddRecipeCookbookCommand();
+        }
+    },
+    DELETE{
+        {
+            this.command = new DeleteRecipeCookbookCommand();
+        }
+    },
+    DELETEBYADMIN{
+        {
+            this.command = new DeleteRecipeCommand();
         }
     };
     ActionCommand command;

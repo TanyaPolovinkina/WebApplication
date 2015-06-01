@@ -16,7 +16,7 @@
                 <br/>
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="enterpage"/>
-                    <input type="submit" value="Ввойти"  class="submit_enter" /><br>
+                    <input type="submit" value="Войти"  class="submit_enter" /><br>
                 </form>
                 <form method="post" action="controller">
                     <input type="hidden" name="command" value="registerpage"/>
@@ -31,30 +31,36 @@
         <div  class="main">
             <div class="menu">
                 <table>
-                    <tr><td class="main_menu"><a href="vk.com">Салаты</a></td></tr>
-                    <tr><td class="main_menu">Закуски</td></tr>
-                    <tr><td class="main_menu">Первые блюда</td></tr>
-                    <tr><td class="main_menu">Вторые блюда</td></tr>
-                    <tr><td class="main_menu">Выпечка</td></tr>
-                    <tr><td class="main_menu">Блины</td></tr>
-                    <tr><td class="main_menu">Десерты</td></tr>
-                    <tr><td class="main_menu">Напитки</td></tr>
-                    <tr><td class="main_menu">Соусы</td></tr>
-                    <tr><td class="main_menu" id="spisok">
-                            <h3>Кухня<span class="expand">+</span></h3>
-                            <ul>
-                                <li>Американская</li>
-                                <li>Грузинская</li>
-                                <li>Индийская</li>
-                                <li>Испанская</li>
-                                <li>Итальянская</li>
-                                <li>Китайская</li>
-                                <li>Македонская</li>
-                                <li>Русская</li>
-                                <li>Узбекская</li>
-                                <li>Французская</li>                                                    
-                            </ul>
-                        </td></tr>
+                    <form name="showrecipes" method="get" action="controller" >
+
+
+                        <input id="changeMenu" type="hidden" value="Салаты"/>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Салаты" >Салаты</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Закуски">Закуски</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Первые блюда">Первые блюда</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Вторые блюда">Вторые блюда</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Выпечка">Выпечка</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Блины">Блины</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Десерты">Десерты</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Напитки">Напитки</a></td></tr>
+                        <tr><td class="main_menu"><a href="controller?command=SHOWRECIPES&param=Соусы">Соусы</a></td></tr>
+                        <tr><td class="main_menu" id="spisok">
+                                <h3>Кухня<span class="expand">+</span></h3>
+                                <ul>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Американская" >Американская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Грузинская" >Грузинская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Индийская" >Индийская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Испанская" >Испанская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Итальянская" >Итальянская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Китайская" >Китайская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Македонская" >Македонская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Русская" >Русская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Узбекская" >Узбекская</a></li>
+                                    <li><a href="controller?command=SHOWRECIPES&param=Французская" >Французская</a></li>                                                    
+                                </ul>
+                            </td></tr>
+
+                    </form>
                 </table>
             </div>
 

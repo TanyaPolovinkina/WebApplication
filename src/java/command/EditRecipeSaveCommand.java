@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package command;
 
 import controller.ActionCommand;
@@ -20,23 +25,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-public class AddRecipeCommand implements ActionCommand {
 
-    Recipe recipe;
+public class EditRecipeSaveCommand implements ActionCommand {
+
+     Recipe recipe;
     Category category;
     Ingredient ingredient;
     Recipeingredient recipeingr;
@@ -50,7 +48,7 @@ public class AddRecipeCommand implements ActionCommand {
     Set stepphotos = new HashSet();
     Recipe recip;
 
-    public AddRecipeCommand() {
+    public EditRecipeSaveCommand() {
         recipe = new Recipe();
         category = new Category();
         ingredient = new Ingredient();
@@ -62,11 +60,12 @@ public class AddRecipeCommand implements ActionCommand {
         recip = new Recipe();
     }
     private Random random = new Random();
-    String action = "add";
-
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+    String id = request.getParameter("recipeid"),
+            recipeName = request.getParameter("name_recipe"),
+            time = request.getParameter("time_cooking");
+    
         DiskFileItemFactory factory = new DiskFileItemFactory();
         factory.setSizeThreshold(1024 * 1024);
         File tempDir = (File) request.getServletContext().getAttribute("javax.servlet.context.tempdir");
@@ -76,6 +75,7 @@ public class AddRecipeCommand implements ActionCommand {
         try {
             List items = upload.parseRequest(request);
             Iterator iter = items.iterator();
+           
             while (iter.hasNext()) {
                 FileItem item = (FileItem) iter.next();
 
@@ -88,69 +88,31 @@ public class AddRecipeCommand implements ActionCommand {
                 }
             }
         } catch (Exception e) {
-            if(action.compareTo("add")==0)
-            request.setAttribute("message", "Произошла ошибка при добавлении");
-            else request.setAttribute("message", "Произошла ошибка при редактировании");
-            String page = "/WEB-INF/views/main.jsp";
+            return "/WEB-INF/views/register.jsp";
         }
-        String page = "/WEB-INF/views/main.jsp";
-         if(action.compareTo("add")==0)
-        request.setAttribute("message", "Рецепт успешно добавлен");
-         else request.setAttribute("message", "Рецепт успешно отредактирован");
+        String page = "/WEB-INF/views/recipe.jsp";
+        request.setAttribute("recipe", recip);
+
         return page;
     }
 
     private void processUploadedFile(FileItem item, HttpServletRequest request) throws Exception {
-
-        File uploadetFile = null;
-        String path = null;
-        String path_photo = null;
-        if (item.getName().compareTo("") == 0) {
-            path_photo = "";
-        } else {
-            do {
-
-                path_photo = "upload/" + random.nextInt() + item.getName();
-                path = "C:\\Users\\Tanya\\Documents\\NetBeansProjects\\WebApplication1\\web\\" + path_photo;
-                uploadetFile = new File(path);
-
-            } while (uploadetFile.exists());
-
-            uploadetFile.createNewFile();
-            item.write(uploadetFile);
-
-        }
-        if (item.getFieldName().compareTo("data") == 0) {
-            recipe.setRecipePhoto(path_photo);
-
-        } else if (item.getFieldName().compareTo("data_dscrb") == 0) {
-
-           step.setPhoto(path_photo);
-            new StepDAO().add(step);
-
-        }
-
+   
     }
 
     private void processFormField(FileItem item, HttpServletRequest request) throws UnsupportedEncodingException {
-        if (item.getFieldName().compareTo("user") == 0) {
+        System.out.println(item.getFieldName() + "=" + item.getString("UTF-8"));
+        if (item.getFieldName().compareTo("recipeid") == 0) {
+            
+            recipe.setRecipeId(Integer.valueOf(item.getString("UTF-8")));
+            
+
+        } else if (item.getFieldName().compareTo("userid") == 0) {
             User user = new User();
             user = new UserDAO().getUserById(Integer.valueOf(item.getString("UTF-8")));
             recipe.setUser(user);
 
-        } else if (item.getFieldName().compareTo("recipeid") == 0) {
-            action = "update";
-            recipe = new RecipeDAO().findEntityById(Integer.valueOf(item.getString("UTF-8")));
-        }
-        else if (item.getFieldName().compareTo("recipeingredient") == 0) {
-            action = "update";
-            recipeingr = new RecipeIngredientDAO().findEntityById(Integer.valueOf(item.getString("UTF-8")));
-        }
-        else if (item.getFieldName().compareTo("step") == 0) {
-            action = "update";
-            step = new StepDAO().findEntityById(Integer.valueOf(item.getString("UTF-8")));
-        }else if (item.getFieldName().compareTo("name_recipe") == 0) {
-            
+        } else if (item.getFieldName().compareTo("name_recipe") == 0) {
             recipe.setRecipeName(item.getString("UTF-8"));
 
         } else if (item.getFieldName().compareTo("time_cooking") == 0) {
@@ -162,13 +124,9 @@ public class AddRecipeCommand implements ActionCommand {
             category = new CategoryDAO().getElementByName(item.getString("UTF-8"));
             categories.add(category);
             recipe.setCategories(categories);
-            if (action.compareTo("add") == 0) {
-                new RecipeDAO().addRecipe(recipe);
-            } else {
-                new RecipeDAO().update(recipe);
-            }
+            new RecipeDAO().update(recipe);
             recip = new RecipeDAO().findEntity(recipe);
-
+            
         } else if (item.getFieldName().compareTo("ingr") == 0) {
             ingredient.setIngredientName(item.getString("UTF-8"));
             boolean result = ingredientDAO.addIngredient(ingredient);
@@ -181,21 +139,15 @@ public class AddRecipeCommand implements ActionCommand {
         } else if (item.getFieldName().compareTo("unit") == 0) {
             recipeingr.setUnit(item.getString("UTF-8"));
             recipeingr.setRecipe(recip);
-            if (action.compareTo("add") == 0) {
-                new RecipeIngredientDAO().add(recipeingr);
-            } else {
-                new RecipeIngredientDAO().update(recipeingr);
-            }
-
+            new RecipeIngredientDAO().update(recipeingr);
         } else if (item.getFieldName().compareTo("dscrb") == 0) {
             step.setDescription(item.getString("UTF-8"));
             step.setStepNumber(stepnumber);
             stepnumber++;
             step.setRecipe(recip);
-            if (action.compareTo("update") == 0) {
-                new StepDAO().update(step);
-            }
+            new StepDAO().update(step);
 
         }
     }
+    
 }

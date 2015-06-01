@@ -1,16 +1,17 @@
 package entityDAO;
 
 import HibernateUtil.HibernateUtil;
+import entity.Recipe;
 import entity.Recipeingredient;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
+public class RecipeIngredientDAO extends EntityDAO<Recipeingredient> {
 
-public class RecipeIngredientDAO extends EntityDAO<Recipeingredient>{
-
-     @Override
+    @Override
     public void add(Recipeingredient obj) {
         Session session = null;
         try {
@@ -19,7 +20,7 @@ public class RecipeIngredientDAO extends EntityDAO<Recipeingredient>{
             session.save(obj);
             session.getTransaction().commit();
         } catch (Exception e) {
-            System.out.println( e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
             if (session != null && session.isOpen()) {
 
@@ -79,6 +80,27 @@ public class RecipeIngredientDAO extends EntityDAO<Recipeingredient>{
             }
         }
     }
-    
-}
 
+    public Recipeingredient findEntityById(int id) {
+        Session session = null;
+        Recipeingredient recipe = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            Query query = session.createQuery("from Recipeingredient c where c.recipeIngredientId = :id")
+                    .setInteger("id", id);
+            recipe = (Recipeingredient) query.uniqueResult();
+
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка 'add'", JOptionPane.OK_OPTION);
+        } finally {
+            if (session != null && session.isOpen()) {
+
+                session.close();
+            }
+        }
+        return recipe;
+    }
+
+}

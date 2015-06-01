@@ -11,15 +11,16 @@
         <title>Главная</title>
 
         <link rel="stylesheet" type="text/css" href="index.css"> 
-            <link rel="stylesheet" type="text/css" href="tag.css"> 
-                <link rel="stylesheet" type="text/css" href="div_recipe.css">
+
+            <link rel="stylesheet" type="text/css" href="div_recipe.css">
+                <link rel="stylesheet" type="text/css" href="tag.css">
                     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                         </head>
                         <body>
                             <header>
                                 <div class='block' id="enter">
                                     <br/>
-                                    <c:if test="${user==null}">
+                                    <c:if test="${user.firstname==null}">
                                         <form method="post" action="controller">
                                             <input type="hidden" name="command" value="enterpage"/>
                                             <input type="submit" value="Войти"  class="submit_enter" /><br>
@@ -29,7 +30,7 @@
                                             <input type="submit"   value="Регистрация" class="submit_registration"/>
                                         </form>
                                     </c:if>
-                                    <c:if test="${user ne null}">
+                                    <c:if test="${user.firstname ne null}">
                                         <p>${user.firstname} ${user.lastname}</p>
                                         <form method="post" action="controller">
                                             <input type="hidden" name="command" value="logout"/>
@@ -49,28 +50,30 @@
                                 <div class="menu">
                                     <table>
                                         <form name="showrecipes" method="get" action="controller" >
-                                            <c:if test="${user ne null}">
+                                            <c:if test="${user.firstname ne null and user.firstname ne 'admin'}">
                                                 <tr>
                                                     <td>
-                                                        <a href="controller?command=SHOWCOOKBOOK" class="tag">
+                                                        <a href="controller?command=SHOWCOOKBOOK&userid=${user.userId}" class="tag">
                                                             Кулинарная книга
                                                         </a>
                                                     </td> 
                                                 </tr>
+                                            </c:if>
+                                            <c:if test="${user.firstname ne null}">
                                                 <tr>
                                                     <td>
-                                                        <a href="controller?command=SHOWMYRECIPES" class="tag">
+                                                        <a href="controller?command=SHOWMYRECIPES&userid=${user.userId}" class="tag">
                                                             Мои рецепты
                                                         </a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                        <td>
-                                                            <a href="controller?command=add" class="tag" />
-                                                                Добавить рецепт
-                                                            </a>
-                                                        </td>
-                                                    
+                                                    <td >
+                                                        <a href="controller?command=add" class="tag" />
+                                                        Добавить рецепт
+                                                        </a>
+                                                    </td>
+
                                                 </tr>
                                             </c:if>
 
@@ -106,35 +109,85 @@
 
                                 <div id="recipe_menu" style="float: left">
                                     <form method="post" action="controller" name="findrecipes">
-                                        <input type="hidden" name="command" value="findrecipe"/>
                                         <div style="width: 100%; height: 10%;">
                                             <table style="width: 900px; height: 70px">
                                                 <tr>
                                                     <td style="width: 5%"></td>
                                                     <input  type="hidden" name="command" value="findrecipe"/>
-                                                    <input  type="hidden" name="userid" value="${user.userId}" />
+                                                    <input  type="hidden" name="userid" value="${user.userId}"/>
                                                     <td style="width: 65%"><input type="text" name="find" class="find"/></td>
                                                     <td style="width: 30%"><input type="submit" value="Найти"  class="find"/></td></tr>
                                             </table>
                                         </div>
                                     </form>
-                                    <div id="recipe" style="width: 830px">
+                                    <div id="recipe" style="width: 850px">
                                         <h1><p>${message}</p></h1>
 
-                                        <c:if test="${category ne 'null'}">
-                                            <c:forEach items="${category.recipes}" var="recipe">
-
-                                                <div class="cbm_wrap ">
-                                                    <p >${recipe.recipeName}</p>
-                                                    <img src="${recipe.recipePhoto}" style="width: 250px"/>
-                                                </div>
-                                            </c:forEach>
-                                        </c:if>
                                         <c:if test="${findrecipes ne 'null'}">
                                             <c:forEach items="${findrecipes}" var="recipe">
                                                 <div class="cbm_wrap ">
-                                                    <p >${recipe.recipeName}</p>
-                                                    <img src="${recipe.recipePhoto}" style="width: 250px"/>
+                                                    <a href="controller?command=SHOWRECIPE&param=${recipe.recipeId}" style="text-decoration:none" >
+                                                        <p >${recipe.recipeName}</p>
+                                                    </a>
+                                                    <a href="controller?command=SHOWRECIPE&param=${recipe.recipeId}" >
+                                                        <img src="${recipe.recipePhoto}" style="width: 250px"/>
+                                                    </a>
+                                                    <c:if test="${user ne null and user.firstname ne 'admin'}">
+                                                        <c:if test="${myrecipe eq 'true'}">
+                                                            <form method="post" action="controller">
+                                                                <input type="hidden" name="command" value="edit"/>
+                                                                <input type="hidden" name="recipeid" value="${recipe.recipeId}"/>
+                                                                <input type="submit" value="Редактировать" class="submit_enter" style="display: block ;margin: 0 auto"/>
+                                                            </form>
+                                                        </c:if>
+                                                        <c:set var="added" value="no"/>
+                                                        <c:if test="${myrecipe ne 'true'}">
+                                                            <c:if test="${recipe.user.userId ne user.userId and cookbook ne 'true'}">
+                                                                <c:forEach items="${user.recipes}" var="userrecipe">
+                                                                    <c:if test="${recipe.recipeId == userrecipe.recipeId}">
+                                                                        <c:set var="added" value="yes"/>
+                                                                        <h3>Добавлен</h3>
+                                                                    </c:if>
+                                                                </c:forEach>  
+
+                                                                <c:if test="${added eq 'no'}">
+                                                                    <form method="post" action="controller">
+                                                                        <input type="hidden" name="command" value="addcookbook"/>
+                                                                        <input type="hidden" name="userid" value="${user.userId}"/>
+                                                                        <input type="hidden" name="recipeid" value="${recipe.recipeId}"/>
+                                                                        <input type="submit" value="Добавить" class="submit_enter" style="display: block ;margin: 0 auto"/>
+                                                                    </form>
+                                                                </c:if>
+
+                                                            </c:if>
+                                                            <c:if test="${recipe.user.userId == user.userId}">
+                                                                <h3>Это ваш рецепт</h3>
+                                                            </c:if>
+
+                                                            <c:if test="${cookbook eq 'true'}">
+                                                                <form method="post" action="controller">
+                                                                    <input type="hidden" name="command" value="delete"/>
+                                                                    <input type="hidden" name="userid" value="${user.userId}"/>
+                                                                    <input type="hidden" name="recipeid" value="${recipe.recipeId}"/>
+                                                                    <input type="submit" value="Удалить" class="submit_enter" style="display: block ;margin: 0 auto"/>
+                                                                </form>
+                                                            </c:if>
+
+
+                                                        </c:if>
+                                                    </c:if>
+                                                    <c:if test="${user ne null and user.firstname eq 'admin'}">
+                                                        <form method="post" action="controller">
+                                                            <input type="hidden" name="command" value="edit"/>
+                                                            <input type="hidden" name="recipeid" value="${recipe.recipeId}"/>
+                                                            <input type="submit" value="Редактировать" class="submit_enter" style="display: block ;margin: 0 auto"/>
+                                                        </form>
+                                                        <form method="post" action="controller">
+                                                            <input type="hidden" name="command" value="deletebyadmin"/>
+                                                            <input type="hidden" name="recipeid" value="${recipe.recipeId}"/>
+                                                            <input type="submit" value="Удалить" class="submit_enter" style="display: block ;margin: 0 auto"/>
+                                                        </form>
+                                                    </c:if>
                                                 </div>
                                             </c:forEach>
                                         </c:if>

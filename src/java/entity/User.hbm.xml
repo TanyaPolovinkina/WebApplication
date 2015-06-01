@@ -20,7 +20,7 @@
         <property name="lastname" type="string">
             <column name="lastname" length="45" not-null="true" />
         </property>
-        <set name="recipes" table="user_has_recipe" inverse="true" lazy="false" fetch="select">
+        <set name="recipes" table="user_has_recipe" inverse="false" lazy="false" fetch="select">
             <key>
                 <column name="user_id" not-null="true" />
             </key>

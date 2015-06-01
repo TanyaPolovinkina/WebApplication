@@ -40,4 +40,10 @@
 .tag:hover:after {
     border-color: transparent transparent transparent red;
 }
+h3{
+    font-family: Segoe Print;
+    text-align: center;
+    color:  royalblue;
+   
+}
 
